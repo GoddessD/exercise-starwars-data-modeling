@@ -22,12 +22,27 @@ class Character(Base):
     planet_from = Column(String(250), ForeignKey('planet.name'))
 
 class Planet(Base):
-    __tablename__ = 'planet'
+    __tablename__ = 'planets'
     id = Column(Integer, primary_key=True)
     name = Column(String(250))
     population = Column(Integer)
     size = Column(Integer)
     climate = Column(String(250))
+
+class Vehicle(Base):
+    __tablename__ ='vehicle'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(250))
+    vehicle_type = Column(String(250))
+    pilot = Column(String(250), ForeignKey('character.name'))
+
+class Favorites(Base):
+    _tablename_ = 'favorites'
+    date_added = Column(Integer)
+    user_id = Column(Integer, ForeignKey('user.user_id') , primary_key=True)
+    favorite_characters = Column(String(250), ForeignKey('characters.name'))
+    favorite_planets = Column(String(250), ForeignKey('planets.name'))
+    favorite_vehicle = Column(String(250), ForeignKey('vehicles.name'))
 
 
     def to_dict(self):
