@@ -13,6 +13,7 @@ class User(Base):
     user_id = Column(Integer, primary_key=True)
     username = Column(String(250))
     password = Column(String(250))
+    favorites = relationship("Favorites", back_populates ="users")
 
 class Character(Base):
     __tablename__ = 'character'
@@ -37,12 +38,14 @@ class Vehicle(Base):
     pilot = Column(String(250), ForeignKey('character.name'))
 
 class Favorites(Base):
-    _tablename_ = 'favorites'
+    __tablename__ = 'favorites'
+    id = Column(Integer, primary_key=True)
     date_added = Column(Integer)
-    user_id = Column(Integer, ForeignKey('user.user_id') , primary_key=True)
-    favorite_characters = Column(String(250), ForeignKey('characters.name'))
-    favorite_planets = Column(String(250), ForeignKey('planets.name'))
-    favorite_vehicle = Column(String(250), ForeignKey('vehicles.name'))
+    user_id = Column(Integer, ForeignKey('user.user_id'))
+    user = relationship("User", back_populates ="favorites")
+    favorite_characters = Column(String(250), ForeignKey('character.id'))
+    favorite_planets = Column(String(250), ForeignKey('planets.id'))
+    favorite_vehicle = Column(String(250), ForeignKey('vehicle.id'))
 
 
     def to_dict(self):
